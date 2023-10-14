@@ -1,1 +1,1 @@
-# cheermix
+# CheerMix
