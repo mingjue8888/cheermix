@@ -1,5 +1,3 @@
-# npm lib
-node_modules
-
-# mac file
 .DS_Store
+node_modules
+lib
