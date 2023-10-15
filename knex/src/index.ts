@@ -13,6 +13,7 @@ import {
 } from "./environment"
 import delay from "delay"
 import { Handler, Request, RequestHandler, Response } from "express"
+import { JwtPayload } from "jsonwebtoken"
 
 export function buildKnex(host: string, database: string, user: string, password: string) {
   return knex({
@@ -54,13 +55,14 @@ export async function getTransaction(retry: number = 0): Promise<Knex.Transactio
   }
 }
 
-export async function autoCommitTransaction(
-  asyncFunction: (transaction: Knex.Transaction) => Promise<void>
+export async function autoCommitTransaction<T>(
+  asyncFunction: (transaction: Knex.Transaction) => Promise<T>
 ) {
   const transaction = await getTransaction()
   try {
-    await asyncFunction(transaction)
+    const result = await asyncFunction(transaction)
     await transaction.commit()
+    return result
   } catch (error) {
     await transaction.rollback()
     throw error
@@ -82,3 +84,19 @@ export function transactionMiddleware(
       .catch(error => next(error))
   }
 }
+
+// export function transactionAuthenticate(
+//   findUser: (payload: JwtPayload, transaction: Knex.Transaction) => Promise<unknown>
+// ) {
+//   return function <T>(payload: JwtPayload): Promise<T> {
+//     return autoCommitTransaction(async function (transaction) {
+//       return findUser(payload, transaction)
+//     })
+//   }
+// }
+
+// transactionAuthenticate(async function (payload, transaction) {
+//   return {
+//     userId: 1,
+//   }
+// })

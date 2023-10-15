@@ -174,7 +174,7 @@ function printError(error: Error, _reqeust: Request, _response: Response, next: 
 export const hasAuthentication = passport.authenticate("jwt", { session: false })
 
 interface StartupOptions {
-  authenticationFindUserLogic?: (payload: JwtPayload) => Promise<unknown>
+  authenticationFindUserLogic?: <T>(payload: JwtPayload) => Promise<T>
   middlewaresExtension?: Middleware[]
 }
 
