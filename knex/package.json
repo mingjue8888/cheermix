@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@cheermix/mywinston": "^1.0.0",
+    "@cheermix/logger": "^1.0.0",
     "delay": "^5.0.0",
     "express": "^4.18.2",
     "knex": "^3.0.1"
@@ -11,7 +11,7 @@
     "tslib": "^2.6.2",
     "typescript": "^5.2.2"
   },
-  "name": "@cheermix/myknex",
+  "name": "@cheermix/knex",
   "version": "1.0.0",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

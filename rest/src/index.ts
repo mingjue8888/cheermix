@@ -34,7 +34,7 @@ import {
   JWT_SECRET,
   NODE_PORT,
 } from "./environment"
-import logger from "@cheermix/mywinston"
+import logger from "@cheermix/logger"
 import { getUnixTimestamp } from "@cheermix/timeutil"
 import { compareSync, genSaltSync, hashSync } from "bcrypt"
 

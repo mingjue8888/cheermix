@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@cheermix/mydayjs": "^1.0.2",
+    "@cheermix/timeutil": "^1.0.0",
     "winston": "^3.11.0"
   },
   "devDependencies": {
