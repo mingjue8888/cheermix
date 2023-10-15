@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@cheermix/timeutil": "^1.0.0",
+    "@cheermix/timeutil": "^1.0.1",
     "winston": "^3.11.0"
   },
   "devDependencies": {
