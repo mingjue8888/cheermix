@@ -85,18 +85,12 @@ export function transactionMiddleware(
   }
 }
 
-// export function transactionAuthenticate(
-//   findUser: (payload: JwtPayload, transaction: Knex.Transaction) => Promise<unknown>
-// ) {
-//   return function <T>(payload: JwtPayload): Promise<T> {
-//     return autoCommitTransaction(async function (transaction) {
-//       return findUser(payload, transaction)
-//     })
-//   }
-// }
-
-// transactionAuthenticate(async function (payload, transaction) {
-//   return {
-//     userId: 1,
-//   }
-// })
+export function transactionAuthenticate(
+  findUser: (payload: JwtPayload, transaction: Knex.Transaction) => Promise<unknown>
+) {
+  return function (payload: JwtPayload): Promise<unknown> {
+    return autoCommitTransaction(async function (transaction) {
+      return findUser(payload, transaction)
+    })
+  }
+}
