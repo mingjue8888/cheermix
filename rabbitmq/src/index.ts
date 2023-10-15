@@ -11,8 +11,8 @@ export async function getAliveChannel(): Promise<amqp.Channel> {
     .then(channel => channel.prefetch(MQ_PREFETCH).then(() => channel))
 }
 
-export async function autoCloseChannel(
-  channelHandler: (channel: amqp.Channel, connection: amqp.Connection) => Promise<unknown>
+export async function autoCloseChannel<T>(
+  channelHandler: (channel: amqp.Channel, connection: amqp.Connection) => Promise<T>
 ) {
   const connection = await amqp.connect(MQ_URL)
   const channel = await connection.createChannel()
@@ -28,14 +28,14 @@ interface BindQueueConfig {
   routePattern: string
 }
 
-export function initQueue(binds: BindQueueConfig[]) {
+export async function initQueue(binds: BindQueueConfig[]) {
   binds.push({
     exchange: "errors",
     queue: "errors.JoiValidationError",
     routePattern: "JoiValidationError",
   })
 
-  return autoCloseChannel(async function (channel) {
+  await autoCloseChannel(async function (channel) {
     const createExchangePromises = _(binds)
       .map(x => x.exchange)
       .uniq()

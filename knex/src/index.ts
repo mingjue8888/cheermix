@@ -67,28 +67,18 @@ export async function autoCommitTransaction(
   }
 }
 
-type Middleware = RequestHandler | Handler
-
-function _asyncMiddlewareCopy(
-  asyncHandler: (reqeust: Request, response: Response) => Promise<void>
-): Middleware {
-  return function (reqeust, response, next) {
-    asyncHandler(reqeust, response)
-      .then(() => next())
-      .catch(error => next(error))
-  }
-}
-
 export function transactionMiddleware(
   transactionHandler: (
     reqeust: Request,
     response: Response,
     transaction: Knex.Transaction
   ) => Promise<void>
-): Middleware {
-  return _asyncMiddlewareCopy(async function (request, response) {
-    await autoCommitTransaction(async function (transaction) {
-      await transactionHandler(request, response, transaction)
+): RequestHandler | Handler {
+  return function (reqeust, response, next) {
+    autoCommitTransaction(async function (transaction) {
+      await transactionHandler(reqeust, response, transaction)
     })
-  })
+      .then(() => next())
+      .catch(error => next(error))
+  }
 }
