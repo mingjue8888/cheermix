@@ -4,6 +4,10 @@ import timezone from "dayjs/plugin/timezone"
 import quarterOfYear from "dayjs/plugin/quarterOfYear"
 import weekOfYear from "dayjs/plugin/weekOfYear"
 import { NODE_TIMEZONE } from "./environment"
+import "dayjs/plugin/utc"
+import "dayjs/plugin/timezone"
+import "dayjs/plugin/quarterOfYear"
+import "dayjs/plugin/weekOfYear"
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
