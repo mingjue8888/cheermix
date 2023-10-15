@@ -9,7 +9,7 @@
     "typescript": "^5.2.2"
   },
   "name": "@cheermix/logger",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": ["lib"]
