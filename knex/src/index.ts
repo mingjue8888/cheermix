@@ -15,6 +15,8 @@ import delay from "delay"
 import { Handler, Request, RequestHandler, Response } from "express"
 import { JwtPayload } from "jsonwebtoken"
 
+export { Knex }
+
 export function buildKnex(host: string, database: string, user: string, password: string) {
   return knex({
     client: DB_CLIENT,

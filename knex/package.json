@@ -14,7 +14,7 @@
     "typescript": "^5.2.2"
   },
   "name": "@cheermix/knex",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
