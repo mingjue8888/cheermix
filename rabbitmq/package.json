@@ -3,17 +3,17 @@
     "amqplib": "^0.10.3",
     "joi": "^17.11.0",
     "lodash": "^4.17.21",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "@types/amqplib": "^0.10.2"
   },
   "devDependencies": {
-    "@types/amqplib": "^0.10.2",
     "@types/lodash": "^4.14.199",
     "@types/node": "^20.8.6",
     "tslib": "^2.6.2",
     "typescript": "^5.2.2"
   },
   "name": "@cheermix/rabbitmq",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": ["lib"]
