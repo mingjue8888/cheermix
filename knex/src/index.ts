@@ -1,5 +1,5 @@
 import knex from "knex"
-import logger from "@cheermix/mywinston"
+import logger from "@cheermix/logger"
 import { Knex } from "knex"
 import {
   DB_CLIENT,

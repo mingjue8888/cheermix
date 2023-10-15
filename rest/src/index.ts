@@ -35,7 +35,7 @@ import {
   NODE_PORT,
 } from "./environment"
 import logger from "@cheermix/mywinston"
-import { getUnixTimestamp } from "@cheermix/mydayjs"
+import { getUnixTimestamp } from "@cheermix/timeutil"
 import { compareSync, genSaltSync, hashSync } from "bcrypt"
 
 type ResponseJoiData = unknown

@@ -1,4 +1,4 @@
-import dayjs from "@cheermix/mydayjs"
+import dayjs from "@cheermix/timeutil"
 import winston from "winston"
 import { LOGGER_COLORIZE, LOGGER_LEVEL, LOGGER_TEXT_ALIGN, LOGGER_TIME_FORMAT } from "./environment"
 
