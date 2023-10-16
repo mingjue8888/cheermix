@@ -128,7 +128,7 @@ export function batchConsume<T>(
     filter(xs => xs.length > 0),
     map(messages => ({
       messages,
-      ackAll: () => Promise.all(messages.map(m => m.ack())),
+      ackAll: () => messages.forEach(m => m.ack()),
     }))
   )
 }
