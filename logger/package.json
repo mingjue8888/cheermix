@@ -2,7 +2,7 @@
   "dependencies": {
     "@cheermix/timeutil": "^1.0.1",
     "winston": "^3.11.0",
-    "@types/node": "^20.8.6",
+    "@types/node": "^20.8.6"
   },
   "devDependencies": {
     "ts-lib": "^0.0.5",
