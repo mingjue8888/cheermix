@@ -1,15 +1,14 @@
 {
   "dependencies": {
-    "@cheermix/timeutil": "^1.0.1",
-    "winston": "^3.11.0",
-    "@types/node": "^20.8.6"
+    "@cheermix/timeutil": "^1.0.2",
+    "winston": "^3.11.0"
   },
   "devDependencies": {
     "ts-lib": "^0.0.5",
     "typescript": "^5.2.2"
   },
   "name": "@cheermix/logger",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": ["lib"]
