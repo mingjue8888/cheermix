@@ -12,12 +12,6 @@ import {
 import joi from "joi"
 import { ValidationError } from "joi"
 import { JwtPayload, sign, verify } from "jsonwebtoken"
-import {
-  HttpServerException,
-  NotFoundException,
-  ServerErrorException,
-  WrongParameterException,
-} from "./errors"
 import multer from "multer"
 import { MulterError } from "multer"
 import { ExtractJwt, Strategy, StrategyOptions } from "passport-jwt"
@@ -71,6 +65,40 @@ export interface ExpressRouter {
   method: HttpMethod
   path: string
   middlewares: Middleware[]
+}
+
+export abstract class HttpServerException extends Error {
+  abstract getHttpResponseStatusCode(): number
+}
+
+export class WrongParameterException extends HttpServerException {
+  getHttpResponseStatusCode(): number {
+    return 400
+  }
+}
+
+export class NotFoundException extends HttpServerException {
+  getHttpResponseStatusCode(): number {
+    return 404
+  }
+}
+
+export class UnauthorizedException extends HttpServerException {
+  getHttpResponseStatusCode(): number {
+    return 401
+  }
+}
+
+export class NoPermissionException extends HttpServerException {
+  getHttpResponseStatusCode(): number {
+    return 403
+  }
+}
+
+export class ServerErrorException extends HttpServerException {
+  getHttpResponseStatusCode(): number {
+    return 500
+  }
 }
 
 export function asyncMiddleware(
