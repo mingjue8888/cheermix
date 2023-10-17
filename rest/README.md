@@ -288,6 +288,7 @@ const findSomething: ExpressRouter = {
 | LOGGER_TIME_FORMAT                   | string                                           | YYYY-MM-DD HH:mm:ss.SSS | Log time format                                                                      |
 | NODE_TIMEZONE                        | string                                           | Asia/Hong_Kong          | Dayjs timezone                                                                       |
 | NODE_PORT                            | integer                                          | 80                      | Server port                                                                          |
+| NODE_ENV                             | string                                           | development             | Runtime environment                                                                  |
 | EXPRESS_REQUEST<br>\_LIMIT_TIMEFRAME | millisecond                                      | 1000                    | Limit the time range of requests for the same IP for a certain period of time        |
 | EXPRESS_REQUEST<br>\_LIMIT_MAX       | integer                                          | 20                      | Limit the maximum number of requests for the same IP within a certain period of time |
 | JWT_SECRET                           | string                                           | hello world!            | Jwt Secret                                                                           |
