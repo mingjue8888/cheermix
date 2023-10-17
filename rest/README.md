@@ -330,7 +330,7 @@ Verify whether your request header contains hasAuthorization
 
 ### const file: multer.Multer
 
-File upload and download tool, see <a href="https://www.npmjs.com/package/multer">Multer</a> for specific usage.
+File upload and download tool, see [Multer](https://www.npmjs.com/package/multer) for specific usage.
 
 ### function asyncMiddleware(asyncHandler): Middleware
 
