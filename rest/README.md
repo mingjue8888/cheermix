@@ -278,7 +278,7 @@ const findSomething: ExpressRouter = {
 
 **CheerMix** has some environment variables that can be used to make adjustments to the integrated tools. **CheerMix** is easy to configure. I like to use **dotenv** to scan my .env file and load variables into the node process. You can also put these variables in vscode's launch.json or pm2's ecosystem.config.js. **Dotenv** is not directly integrated here and is up to you.
 
-| Name                                 | Type                                             | Default Value           | Explain                                                                              |
+| Name                                 | Type                                             | Default Value           | Description                                                                          |
 | ------------------------------------ | ------------------------------------------------ | ----------------------- | ------------------------------------------------------------------------------------ |
 | LOGGER_LEVEL                         | "error"<br>"warn"<br>"info"<br>"http"<br>"debug" | "debug"                 | Log printing level                                                                   |
 | LOGGER_COLORIZE                      | boolean                                          | true                    | Log coloring                                                                         |
@@ -299,7 +299,7 @@ const findSomething: ExpressRouter = {
 
 Convenient for you to write the route of type
 
-| Field       | Type                        | Explain            |
+| Field       | Type                        | Description        |
 | ----------- | --------------------------- | ------------------ |
 | method      | "GET","POST","PUT","DELETE" | Http method        |
 | path        | string                      | Uri                |
@@ -309,7 +309,7 @@ Convenient for you to write the route of type
 
 Startup Options
 
-| Field                        | Type                                       | Explain                              |
+| Field                        | Type                                       | Description                          |
 | ---------------------------- | ------------------------------------------ | ------------------------------------ |
 | authenticationFindUserLogic? | (payload: JwtPayload) => Promise\<unknown> | Specify your findUser implementation |
 | middlewaresExtension?        | Middleware[]                               | You can also expand other Middleware |
@@ -318,7 +318,7 @@ Startup Options
 
 page type
 
-| Field    | Type    | Explain                  |
+| Field    | Type    | Description              |
 | -------- | ------- | ------------------------ |
 | page     | number  | Page number              |
 | pageSize | number  | Page size                |
@@ -337,7 +337,7 @@ File upload and download tool, see [Multer](https://www.npmjs.com/package/multer
 
 A wrapper for the async RequestHandler which will then catch the Exception
 
-| Parameter    | Type                                                     | Explain             |
+| Parameter    | Type                                                     | Description         |
 | ------------ | -------------------------------------------------------- | ------------------- |
 | asyncHandler | (reqeust: Request, response: Response) => Promise\<void> | Your RequestHandler |
 
@@ -345,31 +345,31 @@ A wrapper for the async RequestHandler which will then catch the Exception
 
 Verify the variables on the path and automatically convert the type and set the default value. The data can be found in request.data.param
 
-| Parameter | Type                          | Explain    |
-| --------- | ----------------------------- | ---------- |
-| joiSchema | Record<string, joi.AnySchema> | Joi schema |
+| Parameter | Type                          | Description |
+| --------- | ----------------------------- | ----------- |
+| joiSchema | Record<string, joi.AnySchema> | Joi schema  |
 
 ### function validQuery(joiSchema): Middleware
 
 Verify the parameters after "?" in the path and automatically convert the type and set the default value. You can find the data in request.data.query
 
-| Parameter | Type                          | Explain    |
-| --------- | ----------------------------- | ---------- |
-| joiSchema | Record<string, joi.AnySchema> | Joi schema |
+| Parameter | Type                          | Description |
+| --------- | ----------------------------- | ----------- |
+| joiSchema | Record<string, joi.AnySchema> | Joi schema  |
 
 ### function validBody(joiSchema): Middleware
 
 Verify the json in the request body and automatically convert the type and set the default value. The data can be found in request.data.body
 
-| Parameter | Type                          | Explain    |
-| --------- | ----------------------------- | ---------- |
-| joiSchema | Record<string, joi.AnySchema> | Joi schema |
+| Parameter | Type                          | Description |
+| --------- | ----------------------------- | ----------- |
+| joiSchema | Record<string, joi.AnySchema> | Joi schema  |
 
 ### function validPage(inWhere): Middleware
 
 Verify the data about the page in the request and automatically convert the type and set the default value. You can find the data in request.data.page
 
-| Parameter | Type       | Explain                            |
+| Parameter | Type       | Description                        |
 | --------- | ---------- | ---------------------------------- |
 | inWhere   | query,body | Tell cheermix where your page data |
 
@@ -377,23 +377,23 @@ Verify the data about the page in the request and automatically convert the type
 
 Verify the data in response.data and respond
 
-| Parameter | Type                          | Explain    |
-| --------- | ----------------------------- | ---------- |
-| joiSchema | Record<string, joi.AnySchema> | Joi schema |
+| Parameter | Type                          | Description |
+| --------- | ----------------------------- | ----------- |
+| joiSchema | Record<string, joi.AnySchema> | Joi schema  |
 
 ### function signPassword(password): string
 
 Bcrypt encryption
 
-| Parameter | Type   | Explain |
-| --------- | ------ | ------- |
-| password  | string |         |
+| Parameter | Type   | Description |
+| --------- | ------ | ----------- |
+| password  | string |             |
 
 ### function validPassword(password, saltyPassword): boolean
 
 Verify password
 
-| Parameter     | Type   | Explain                       |
+| Parameter     | Type   | Description                   |
 | ------------- | ------ | ----------------------------- |
 | password      | string | Password before encryption    |
 | saltyPassword | string | Encrypt the salted ciphertext |
@@ -402,7 +402,7 @@ Verify password
 
 Sign Json web token
 
-| Parameter     | Type   | Explain                                                                                                 |
+| Parameter     | Type   | Description                                                                                             |
 | ------------- | ------ | ------------------------------------------------------------------------------------------------------- |
 | subject       | string | Usually put the user ID                                                                                 |
 | refreshToken? | string | Before the JWT_EXPIRES setting expires, you can get a new access token by passing in the Refresh token. |
