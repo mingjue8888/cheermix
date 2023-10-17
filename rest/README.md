@@ -280,19 +280,19 @@ const findSomething: ExpressRouter = {
 
 **CheerMix** has some environment variables that can be used to make adjustments to the integrated tools. **CheerMix** is easy to configure. I like to use **dotenv** to scan my .env file and load variables into the node process. You can also put these variables in vscode's launch.json or pm2's ecosystem.config.js. **Dotenv** is not directly integrated here and is up to you.
 
-| Name                                 | Type                                   | Default Value           | Explain                                                                              |
-| ------------------------------------ | -------------------------------------- | ----------------------- | ------------------------------------------------------------------------------------ |
-| LOGGER_LEVEL                         | error<br>warn<br>info<br>http<br>debug | debug                   | Log printing level                                                                   |
-| LOGGER_COLORIZE                      | boolean                                | true                    | Log coloring                                                                         |
-| LOGGER_TEXT_ALIGN                    | boolean                                | true                    | Log text format adaptive                                                             |
-| LOGGER_TIME_FORMAT                   | string                                 | YYYY-MM-DD HH:mm:ss.SSS | Log time format                                                                      |
-| NODE_TIMEZONE                        | string                                 | Asia/Hong_Kong          | Dayjs timezone                                                                       |
-| NODE_PORT                            | integer                                | 80                      | Server port                                                                          |
-| EXPRESS_REQUEST<br>\_LIMIT_TIMEFRAME | millisecond                            | 1000                    | Limit the time range of requests for the same IP for a certain period of time        |
-| EXPRESS_REQUEST<br>\_LIMIT_MAX       | integer                                | 20                      | Limit the maximum number of requests for the same IP within a certain period of time |
-| JWT_SECRET                           | string                                 | hello world!            | Jwt Secret                                                                           |
-| JWT_EXPIRES                          | millisecond                            | 48 hours                | Jwt expiration time                                                                  |
-| JWT_REFRESH_TIME                     | millisecond                            | 1 hour                  | Jwt refresh time                                                                     |
+| Name                                 | Type                                             | Default Value           | Explain                                                                              |
+| ------------------------------------ | ------------------------------------------------ | ----------------------- | ------------------------------------------------------------------------------------ |
+| LOGGER_LEVEL                         | "error"<br>"warn"<br>"info"<br>"http"<br>"debug" | "debug"                 | Log printing level                                                                   |
+| LOGGER_COLORIZE                      | boolean                                          | true                    | Log coloring                                                                         |
+| LOGGER_TEXT_ALIGN                    | boolean                                          | true                    | Log text format adaptive                                                             |
+| LOGGER_TIME_FORMAT                   | string                                           | YYYY-MM-DD HH:mm:ss.SSS | Log time format                                                                      |
+| NODE_TIMEZONE                        | string                                           | Asia/Hong_Kong          | Dayjs timezone                                                                       |
+| NODE_PORT                            | integer                                          | 80                      | Server port                                                                          |
+| EXPRESS_REQUEST<br>\_LIMIT_TIMEFRAME | millisecond                                      | 1000                    | Limit the time range of requests for the same IP for a certain period of time        |
+| EXPRESS_REQUEST<br>\_LIMIT_MAX       | integer                                          | 20                      | Limit the maximum number of requests for the same IP within a certain period of time |
+| JWT_SECRET                           | string                                           | hello world!            | Jwt Secret                                                                           |
+| JWT_EXPIRES                          | millisecond                                      | 48 hours                | Jwt expiration time                                                                  |
+| JWT_REFRESH_TIME                     | millisecond                                      | 1 hour                  | Jwt refresh time                                                                     |
 
 ## API Reference
 
@@ -300,11 +300,11 @@ const findSomething: ExpressRouter = {
 
 Convenient for you to write the route of type
 
-| Field       | Type                | Explain            |
-| ----------- | ------------------- | ------------------ |
-| method      | GET,POST,PUT,DELETE | Http method        |
-| path        | string              | Uri                |
-| middlewares | Middleware          | Express Middleware |
+| Field       | Type                        | Explain            |
+| ----------- | --------------------------- | ------------------ |
+| method      | "GET","POST","PUT","DELETE" | Http method        |
+| path        | string                      | Uri                |
+| middlewares | Middleware                  | Express Middleware |
 
 ### interface StartupOptions
 
