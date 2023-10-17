@@ -1,7 +1,4 @@
-<img 
-  src="https://github.com/mingjue8888/cheermix/blob/master/logo.jpg?raw=true" 
-  alt="A perfectly mixed cocktail"
-  width="100%">
+![A perfectly mixed cocktail](https://github.com/mingjue8888/cheermix/blob/master/logo.jpg?raw=true)
 
 ![code style](https://img.shields.io/badge/code_style-functional-blue)
 ![gitter](https://img.shields.io/gitter/room/mingjue8888/cheermix)
