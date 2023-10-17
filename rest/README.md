@@ -82,7 +82,7 @@ export default startup(routers)
 I like to use mocha and supertest for testing, let’s add it to the project.
 
 ```
-npm i -D mocha supertest @types/mocha @types/supertest ts-mocha typescript
+npm i -D mocha supertest @types/mocha @types/supertest ts-mocha ts-node typescript
 ```
 
 Let's create a hello.spec.ts in the routes folder.
@@ -280,18 +280,130 @@ const findSomething: ExpressRouter = {
 
 **CheerMix** has some environment variables that can be used to make adjustments to the integrated tools. **CheerMix** is easy to configure. I like to use **dotenv** to scan my .env file and load variables into the node process. You can also put these variables in vscode's launch.json or pm2's ecosystem.config.js. **Dotenv** is not directly integrated here and is up to you.
 
-| name                            | type                       | default value           | explain                                                                              |
-| ------------------------------- | -------------------------- | ----------------------- | ------------------------------------------------------------------------------------ |
-| LOGGER_LEVEL                    | error,warn,info,http,debug | debug                   | Log printing level                                                                   |
-| LOGGER_COLORIZE                 | boolean                    | true                    | Log coloring                                                                         |
-| LOGGER_TEXT_ALIGN               | boolean                    | true                    | Log text format adaptive                                                             |
-| LOGGER_TIME_FORMAT              | string                     | YYYY-MM-DD HH:mm:ss.SSS | Log time format                                                                      |
-| NODE_TIMEZONE                   | string                     | Asia/Hong_Kong          | Dayjs timezone                                                                       |
-| NODE_PORT                       | integer                    | 80                      | Server port                                                                          |
-| EXPRESS_REQUEST_LIMIT_TIMEFRAME | millisecond                | 1000                    | Limit the time range of requests for the same IP for a certain period of time        |
-| EXPRESS_REQUEST_LIMIT_MAX       | integer                    | 20                      | Limit the maximum number of requests for the same IP within a certain period of time |
-| JWT_SECRET                      | string                     | hello world!            | Jwt Secret                                                                           |
-| JWT_EXPIRES                     | millisecond                | 48 hours                | Jwt expiration time                                                                  |
-| JWT_REFRESH_TIME                | millisecond                | 1 hour                  | Jwt refresh time                                                                     |
+| Name                                 | Type                                   | Default Value           | Explain                                                                              |
+| ------------------------------------ | -------------------------------------- | ----------------------- | ------------------------------------------------------------------------------------ |
+| LOGGER_LEVEL                         | error<br>warn<br>info<br>http<br>debug | debug                   | Log printing level                                                                   |
+| LOGGER_COLORIZE                      | boolean                                | true                    | Log coloring                                                                         |
+| LOGGER_TEXT_ALIGN                    | boolean                                | true                    | Log text format adaptive                                                             |
+| LOGGER_TIME_FORMAT                   | string                                 | YYYY-MM-DD HH:mm:ss.SSS | Log time format                                                                      |
+| NODE_TIMEZONE                        | string                                 | Asia/Hong_Kong          | Dayjs timezone                                                                       |
+| NODE_PORT                            | integer                                | 80                      | Server port                                                                          |
+| EXPRESS_REQUEST<br>\_LIMIT_TIMEFRAME | millisecond                            | 1000                    | Limit the time range of requests for the same IP for a certain period of time        |
+| EXPRESS_REQUEST<br>\_LIMIT_MAX       | integer                                | 20                      | Limit the maximum number of requests for the same IP within a certain period of time |
+| JWT_SECRET                           | string                                 | hello world!            | Jwt Secret                                                                           |
+| JWT_EXPIRES                          | millisecond                            | 48 hours                | Jwt expiration time                                                                  |
+| JWT_REFRESH_TIME                     | millisecond                            | 1 hour                  | Jwt refresh time                                                                     |
 
 ## API Reference
+
+### interface ExpressRouter
+
+Convenient for you to write the route of type
+
+| Field       | Type                | Explain            |
+| ----------- | ------------------- | ------------------ |
+| method      | GET,POST,PUT,DELETE | Http method        |
+| path        | string              | Uri                |
+| middlewares | Middleware          | Express Middleware |
+
+### interface StartupOptions
+
+Startup Options
+
+| Field                        | Type                                       | Explain                              |
+| ---------------------------- | ------------------------------------------ | ------------------------------------ |
+| authenticationFindUserLogic? | (payload: JwtPayload) => Promise\<unknown> | Specify your findUser implementation |
+| middlewaresExtension?        | Middleware[]                               | You can also expand other Middleware |
+
+### interface Page
+
+page type
+
+| Field    | Type    | Explain                  |
+| -------- | ------- | ------------------------ |
+| page     | number  | Page number              |
+| pageSize | number  | Page size                |
+| sortBy?  | string  | Sort field               |
+| isDesc?  | boolean | Whether in reverse order |
+
+### const hasAuthorization: Middleware
+
+Verify whether your request header contains hasAuthorization
+
+### const file: multer.Multer
+
+File upload and download tool, see <a href="https://www.npmjs.com/package/multer">Multer</a> for specific usage.
+
+### function asyncMiddleware(asyncHandler): Middleware
+
+A wrapper for the async RequestHandler which will then catch the Exception
+
+| Parameter    | Type                                                     | Explain             |
+| ------------ | -------------------------------------------------------- | ------------------- |
+| asyncHandler | (reqeust: Request, response: Response) => Promise\<void> | Your RequestHandler |
+
+### function validParam(joiSchema): Middleware
+
+Verify the variables on the path and automatically convert the type and set the default value. The data can be found in request.data.param
+
+| Parameter | Type                          | Explain    |
+| --------- | ----------------------------- | ---------- |
+| joiSchema | Record<string, joi.AnySchema> | Joi schema |
+
+### function validQuery(joiSchema): Middleware
+
+Verify the parameters after "?" in the path and automatically convert the type and set the default value. You can find the data in request.data.query
+
+| Parameter | Type                          | Explain    |
+| --------- | ----------------------------- | ---------- |
+| joiSchema | Record<string, joi.AnySchema> | Joi schema |
+
+### function validBody(joiSchema): Middleware
+
+Verify the json in the request body and automatically convert the type and set the default value. The data can be found in request.data.body
+
+| Parameter | Type                          | Explain    |
+| --------- | ----------------------------- | ---------- |
+| joiSchema | Record<string, joi.AnySchema> | Joi schema |
+
+### function validPage(inWhere): Middleware
+
+Verify the data about the page in the request and automatically convert the type and set the default value. You can find the data in request.data.page
+
+| Parameter | Type       | Explain                            |
+| --------- | ---------- | ---------------------------------- |
+| inWhere   | query,body | Tell cheermix where your page data |
+
+### function validResponseDataAndSendIt(joiSchema): Middleware
+
+Verify the data in response.data and respond
+
+| Parameter | Type                          | Explain    |
+| --------- | ----------------------------- | ---------- |
+| joiSchema | Record<string, joi.AnySchema> | Joi schema |
+
+### function signPassword(password): string
+
+Bcrypt encryption
+
+| Parameter | Type   | Explain |
+| --------- | ------ | ------- |
+| password  | string |         |
+
+### function validPassword(password, saltyPassword): boolean
+
+Verify password
+
+| Parameter     | Type   | Explain                       |
+| ------------- | ------ | ----------------------------- |
+| password      | string | Password before encryption    |
+| saltyPassword | string | Encrypt the salted ciphertext |
+
+### function signJwt(subject, refreshToken?): { accessToken: string; refreshToken: string }
+
+Sign Json web token
+
+| Parameter     | Type   | Explain                                                                                                 |
+| ------------- | ------ | ------------------------------------------------------------------------------------------------------- |
+| subject       | string | Usually put the user ID                                                                                 |
+| refreshToken? | string | Before the JWT_EXPIRES setting expires, you can get a new access token by passing in the Refresh token. |
