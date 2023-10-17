@@ -140,7 +140,8 @@ const helloworld: ExpressRouter = {
 }
 
 // file: main.ts
-// 4.You can override the user type in ExpressRequest so that you have corresponding field prompts in the IDE
+// 4.You can override the user type in ExpressRequest
+//   so that you have corresponding field prompts in the IDE
 declare global {
   namespace Express {
     interface Request {
