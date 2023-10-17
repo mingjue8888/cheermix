@@ -26,13 +26,13 @@
     "typescript": "^5.2.2"
   },
   "name": "@cheermix/rest",
-  "version": "1.1.10",
+  "version": "1.1.11",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": ["lib"],
   "license": "MIT",
   "description": "An http framework based on express and other tool libraries.",
-  "repository": "https://github.com/mingjue8888/cheermix/tree/master/rest",
+  "repository": "https://github.com/mingjue8888/cheermix",
   "homepage": "https://github.com/mingjue8888/cheermix",
   "author": {
     "email": "mingjue.liu@icloud.com",
