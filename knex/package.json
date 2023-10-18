@@ -13,7 +13,7 @@
     "typescript": "^5.2.2"
   },
   "name": "@cheermix/knex",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "files": [
