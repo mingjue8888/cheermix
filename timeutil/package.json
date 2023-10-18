@@ -9,8 +9,22 @@
     "typescript": "^5.2.2"
   },
   "name": "@cheermix/timeutil",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "files": ["lib"]
+  "files": ["lib"],
+  "license": "MIT",
+  "description": "This library is based on dayjs and supports timezone.",
+  "repository": "https://github.com/mingjue8888/cheermix",
+  "homepage": "https://github.com/mingjue8888/cheermix",
+  "author": {
+    "email": "mingjue.liu@icloud.com",
+    "name": "mingjue"
+  },
+  "keywords": [
+    "dayjs",
+    "time",
+    "timeutil",
+    "moment"
+  ]
 }
