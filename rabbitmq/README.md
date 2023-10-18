@@ -8,6 +8,7 @@ import { batchConsume, consume, filterAck, initQueue, publish } from "@cheermix/
 import { buffer, filter, map } from "rxjs"
 import { maxBy, minBy } from "lodash"
 
+// Demo interface
 interface BinanceCandlestickChart {
   coinType: string
   timeFrame: number
@@ -18,6 +19,7 @@ interface BinanceCandlestickChart {
   low: number
 }
 
+// Demo schema
 const BinanceCandlestickChartSchema = joi.object({
   coinType: joi.string().required(),
   timeFrame: joi.number().integer().required(),
@@ -28,6 +30,7 @@ const BinanceCandlestickChartSchema = joi.object({
   low: joi.number().required(),
 })
 
+// Demo data
 const data: BinanceCandlestickChart[] = [
   {
     coinType: "BTC/USDT",
