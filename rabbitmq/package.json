@@ -13,8 +13,21 @@
     "typescript": "^5.2.2"
   },
   "name": "@cheermix/rabbitmq",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "files": ["lib"]
+  "files": ["lib"],
+  "license": "MIT",
+  "description": "Combined with rxjs, it allows you to write message queues in a more functional way.",
+  "repository": "https://github.com/mingjue8888/cheermix",
+  "homepage": "https://github.com/mingjue8888/cheermix",
+  "author": {
+    "email": "mingjue.liu@icloud.com",
+    "name": "mingjue"
+  },
+  "keywords": [
+    "mq",
+    "amqplib",
+    "rabbitmq"
+  ]
 }

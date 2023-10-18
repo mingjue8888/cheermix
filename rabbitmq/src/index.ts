@@ -76,6 +76,13 @@ export async function publish(
   })
 }
 
+export interface ConsumeMessage<T> {
+  exchangeName: string
+  routingKey: string
+  message: T
+  ack: () => void
+}
+
 export function consume<T>(queue: string, schema: joi.ObjectSchema<T>) {
   const message$ = new Observable(function (
     observer: Subscriber<{ msg: amqp.ConsumeMessage; channel: amqp.Channel }>
@@ -86,12 +93,15 @@ export function consume<T>(queue: string, schema: joi.ObjectSchema<T>) {
   })
 
   return message$.pipe(
-    map(param => ({
-      exchangeName: param.msg.fields.exchange,
-      routingKey: param.msg.fields.routingKey,
-      message: JSON.parse(param.msg.content.toString("utf-8")) as T,
-      ack: () => param.channel.ack(param.msg),
-    })),
+    map(
+      param =>
+        ({
+          exchangeName: param.msg.fields.exchange,
+          routingKey: param.msg.fields.routingKey,
+          message: JSON.parse(param.msg.content.toString("utf-8")) as T,
+          ack: () => param.channel.ack(param.msg),
+        } as ConsumeMessage<T>)
+    ),
     filter(x => {
       try {
         x.message = joi.attempt(x.message, schema, {
@@ -113,22 +123,16 @@ export function consume<T>(queue: string, schema: joi.ObjectSchema<T>) {
   )
 }
 
-interface BatchConsumeOptions {
-  bufferTimeSpan: number
-  bufferCreationInterval: number
-}
-
-export function batchConsume<T>(
-  queue: string,
-  schema: joi.ObjectSchema<T>,
-  options: BatchConsumeOptions = { bufferTimeSpan: 200, bufferCreationInterval: 200 }
-) {
-  return consume<T>(queue, schema).pipe(
-    bufferTime(options.bufferTimeSpan, options.bufferCreationInterval),
-    filter(xs => xs.length > 0),
-    map(messages => ({
-      messages,
-      ackAll: () => messages.forEach(m => m.ack()),
-    }))
-  )
+export function filterAck<T>(filterFunction: (message: ConsumeMessage<T>) => boolean) {
+  return function (observable: Observable<ConsumeMessage<T>>) {
+    return new Observable<ConsumeMessage<T>>(function (subscriber) {
+      observable.subscribe(function (message) {
+        if (filterFunction(message)) {
+          subscriber.next(message)
+        } else {
+          message.ack()
+        }
+      })
+    })
+  }
 }
