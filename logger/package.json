@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "@cheermix/timeutil": "^1.0.2",
+    "@cheermix/timeutil": "^1.0.3",
     "winston": "^3.11.0"
   },
   "devDependencies": {
@@ -8,8 +8,21 @@
     "typescript": "^5.2.2"
   },
   "name": "@cheermix/logger",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "files": ["lib"]
+  "files": ["lib"],
+  "license": "MIT",
+  "description": "A logger that integrates winston and supports timezone for printing time.",
+  "repository": "https://github.com/mingjue8888/cheermix",
+  "homepage": "https://github.com/mingjue8888/cheermix",
+  "author": {
+    "email": "mingjue.liu@icloud.com",
+    "name": "mingjue"
+  },
+  "keywords": [
+    "log",
+    "logger",
+    "winston"
+  ]
 }
