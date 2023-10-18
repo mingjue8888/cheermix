@@ -210,7 +210,7 @@ export class ServerErrorException extends HttpServerException {
 }
 ```
 
-When you throw these exceptions in any RequestHandler wrapped by asyncMiddleware, **CheerMix** will handle the corresponding response code, and you will also receive exception information in the response body. Usually, I will throw exceptions in the service. It can be said that all the Middleware provided by **CheerMix** has been wrapped.
+When you throw these exceptions in any RequestHandler wrapped by asyncMiddleware, **CheerMix** will handle the corresponding response code, and you will also receive exception information in the response body. It can be said that all the Middleware provided by **CheerMix** has been wrapped.
 
 ```typescript
 // file: routes/hello.route.ts
