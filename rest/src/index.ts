@@ -172,7 +172,7 @@ export function validResponseDataAndSendIt(joiSchema: Record<string, joi.AnySche
     try {
       response.data = joi.attempt(response.data, joi.object(joiSchema))
     } catch (error) {
-      throw new ServerErrorException(`response validation error: ${error.message}`)
+      throw new ServerErrorException(`ResponseValidationError: ${error.details}`)
     }
     response.send(response.data)
   })
@@ -185,7 +185,7 @@ function wrongParameterExceptionTransaform(
   next: NextFunction
 ) {
   if (error instanceof ValidationError) {
-    next(new WrongParameterException("Validtion Error:" + JSON.stringify(error.details)))
+    next(new WrongParameterException("ValidtionError:" + JSON.stringify(error.details)))
   } else if (error instanceof MulterError) {
     next(new WrongParameterException(error.message))
   } else {
@@ -198,7 +198,7 @@ function errorHandler(error: Error, _reqeust: Request, response: Response, next:
     response.status(error.getHttpResponseStatusCode()).send({ message: error.message })
   } else {
     response.status(500).send({
-      message: `Server error: ${error.message}, please make contact with backend developer!`,
+      message: `ServerError: ${error.message}, please make contact with backend developer!`,
     })
   }
   next(error)
