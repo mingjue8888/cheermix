@@ -30,8 +30,8 @@ dayjs.extend(weekOfYear)
 
 dayjs.tz.setDefault(NODE_TIMEZONE)
 
-export function getUnixTimestamp(addSeconds: number): number {
-  const nodeTimestamp = dayjs().tz().add(addSeconds, "second").toDate().getTime()
+export function getUnixTimestamp(addMilliseconds: number): number {
+  const nodeTimestamp = dayjs().tz().add(addMilliseconds, "millisecond").toDate().getTime()
   return Math.floor(nodeTimestamp / 1000)
 }
 
