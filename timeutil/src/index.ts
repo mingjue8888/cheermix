@@ -1,13 +1,27 @@
+import joi from "joi"
 import dayjs from "dayjs"
 import utc from "dayjs/plugin/utc"
 import timezone from "dayjs/plugin/timezone"
 import quarterOfYear from "dayjs/plugin/quarterOfYear"
 import weekOfYear from "dayjs/plugin/weekOfYear"
-import { NODE_TIMEZONE } from "./environment"
 import "dayjs/plugin/utc"
 import "dayjs/plugin/timezone"
 import "dayjs/plugin/quarterOfYear"
 import "dayjs/plugin/weekOfYear"
+
+interface ProcessEnvironment {
+  NODE_TIMEZONE: string
+}
+
+export const { NODE_TIMEZONE } = joi.attempt<joi.ObjectSchema<ProcessEnvironment>>(
+  process.env,
+  joi.object({
+    NODE_TIMEZONE: joi.string().default("Asia/Hong_Kong"),
+  }),
+  {
+    allowUnknown: true,
+  }
+)
 
 dayjs.extend(utc)
 dayjs.extend(timezone)
