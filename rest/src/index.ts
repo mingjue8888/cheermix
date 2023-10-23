@@ -178,7 +178,7 @@ export function validResponseDataAndSendIt(joiSchema: Record<string, joi.AnySche
   })
 }
 
-function WrongParameterExceptionTransaform(
+function wrongParameterExceptionTransaform(
   error: Error,
   _reqeust: Request,
   _response: Response,
@@ -281,7 +281,7 @@ export function startup(routers: ExpressRouter[], options?: StartupOptions) {
   }
 
   const app = passRoutersApp
-    .use(WrongParameterExceptionTransaform)
+    .use(wrongParameterExceptionTransaform)
     .use(errorHandler)
     .use(printError)
     .listen(NODE_PORT, () => logger.info(`Server is running on port ${NODE_PORT}`))
