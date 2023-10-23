@@ -275,7 +275,7 @@ export function startup(routers: ExpressRouter[], options?: StartupOptions) {
       if (options?.exceptionTransaform) {
         options?.exceptionTransaform(error, next)
       } else {
-        next()
+        next(error)
       }
     })
   }
