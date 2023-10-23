@@ -72,14 +72,6 @@ type RequestJoiData = {
   param: any
   query: any
   body: any
-  page: Page
-}
-
-interface Page {
-  page: number
-  pageSize: number
-  sortBy?: string
-  isDesc?: boolean
 }
 
 declare global {
@@ -167,23 +159,6 @@ export function validBody(joiSchema: Record<string, joi.AnySchema>): Middleware 
     reqeust.data.body = joi.attempt(reqeust.body, joi.object(joiSchema), {
       allowUnknown: true,
     })
-  })
-}
-
-export function validPage(inWhere: "query" | "body"): Middleware {
-  return asyncMiddleware(async function (reqeust) {
-    reqeust.data.page = joi.attempt(
-      reqeust[inWhere],
-      joi.object({
-        page: joi.number().integer().min(1).default(1),
-        pageSize: joi.number().integer().min(1).max(1000).default(20),
-        sortBy: joi.string(),
-        isDesc: joi.boolean(),
-      }),
-      {
-        allowUnknown: true,
-      }
-    )
   })
 }
 
