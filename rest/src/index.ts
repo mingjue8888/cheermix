@@ -212,8 +212,9 @@ function printError(error: Error, _reqeust: Request, _response: Response, next: 
 export const hasAuthorization: Middleware = passport.authenticate("jwt", { session: false })
 
 interface StartupOptions {
-  authenticationFindUserLogic?: (payload: JwtPayload) => Promise<unknown>
   middlewaresExtension?: Middleware[]
+  authenticationFindUserLogic?: (payload: JwtPayload) => Promise<unknown>
+  exceptionTransaform?: (error: Error, next: NextFunction) => void
 }
 
 export function startup(routers: ExpressRouter[], options?: StartupOptions) {
@@ -262,14 +263,30 @@ export function startup(routers: ExpressRouter[], options?: StartupOptions) {
     options?.middlewaresExtension.forEach(middleware => beforeRoutersApp.use(middleware))
   }
 
-  const passRoutersApp = beforeRoutersApp
-    .use(router)
+  const passRoutersApp = beforeRoutersApp.use(router)
+
+  if (options?.exceptionTransaform) {
+    passRoutersApp.use(function (
+      error: Error,
+      _request: Request,
+      _response: Response,
+      next: NextFunction
+    ) {
+      if (options?.exceptionTransaform) {
+        options?.exceptionTransaform(error, next)
+      } else {
+        next()
+      }
+    })
+  }
+
+  const app = passRoutersApp
     .use(illegalArgumentExceptionTransaform)
     .use(errorHandler)
     .use(printError)
     .listen(NODE_PORT, () => logger.info(`Server is running on port ${NODE_PORT}`))
 
-  return passRoutersApp
+  return app
 }
 
 export const file = multer()
