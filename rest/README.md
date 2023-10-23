@@ -314,17 +314,6 @@ Startup Options
 | authenticationFindUserLogic? | (payload: JwtPayload) => Promise\<unknown> | Specify your findUser implementation |
 | middlewaresExtension?        | Middleware[]                               | You can also expand other Middleware |
 
-### interface Page
-
-page type
-
-| Field    | Type    | Description              |
-| -------- | ------- | ------------------------ |
-| page     | number  | Page number              |
-| pageSize | number  | Page size                |
-| sortBy?  | string  | Sort field               |
-| isDesc?  | boolean | Whether in reverse order |
-
 ### const hasAuthorization: Middleware
 
 Verify whether your request header contains hasAuthorization
@@ -364,14 +353,6 @@ Verify the json in the request body and automatically convert the type and set t
 | Parameter | Type                          | Description |
 | --------- | ----------------------------- | ----------- |
 | joiSchema | Record<string, joi.AnySchema> | Joi schema  |
-
-### function validPage(inWhere): Middleware
-
-Verify the data about the page in the request and automatically convert the type and set the default value. You can find the data in request.data.page
-
-| Parameter | Type       | Description                        |
-| --------- | ---------- | ---------------------------------- |
-| inWhere   | query,body | Tell cheermix where your page data |
 
 ### function validResponseDataAndSendIt(joiSchema): Middleware
 
