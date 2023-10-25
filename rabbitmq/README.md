@@ -4,7 +4,14 @@ Combined with rxjs, it allows you to write message queues in a more functional w
 
 ```typescript
 import joi from "joi"
-import { batchConsume, consume, filterAck, initQueue, publish } from "@cheermix/rabbitmq"
+import {
+  batchConsume,
+  consume,
+  filterOnSchema,
+  filterAndAck,
+  initQueue,
+  publish,
+} from "@cheermix/rabbitmq"
 import { buffer, filter, map } from "rxjs"
 import { maxBy, minBy } from "lodash"
 
@@ -18,17 +25,6 @@ interface BinanceCandlestickChart {
   high: number
   low: number
 }
-
-// Demo schema
-const BinanceCandlestickChartSchema = joi.object({
-  coinType: joi.string().required(),
-  timeFrame: joi.number().integer().required(),
-  date: joi.string().required(),
-  open: joi.number().required(),
-  close: joi.number().required(),
-  high: joi.number().required(),
-  low: joi.number().required(),
-})
 
 // Demo data
 const data: BinanceCandlestickChart[] = [
@@ -73,9 +69,18 @@ initQueue([
     await Promise.all(pushAll)
   })
   .then(async function () {
-    const candlestickChart$ = consume<BinanceCandlestickChart>(
-      "crawler.FiveMinutesBinanceCandlestickChart",
-      BinanceCandlestickChartSchema
+    const any$ = consume("crawler.FiveMinutesBinanceCandlestickChart")
+
+    const candlestickChart$ = any$.pipe(
+      filterOnSchema<BinanceCandlestickChart>({
+        coinType: joi.string().required(),
+        timeFrame: joi.number().integer().required(),
+        date: joi.string().required(),
+        open: joi.number().required(),
+        close: joi.number().required(),
+        high: joi.number().required(),
+        low: joi.number().required(),
+      })
     )
 
     candlestickChart$.subscribe(function (data) {
@@ -90,14 +95,23 @@ initQueue([
 // let's synthesize a 15-minute BTC candlestick chart.
 // Remember to set MQ_PREFETCH larger, at least greater than 3 here.
 async function main() {
-  const candlestickChart$ = consume<BinanceCandlestickChart>(
-    "crawler.FiveMinutesBinanceCandlestickChart",
-    BinanceCandlestickChartSchema
+  const any$ = consume("crawler.FiveMinutesBinanceCandlestickChart")
+
+  const candlestickChart$ = any$.pipe(
+    filterOnSchema<BinanceCandlestickChart>({
+      coinType: joi.string().required(),
+      timeFrame: joi.number().integer().required(),
+      date: joi.string().required(),
+      open: joi.number().required(),
+      close: joi.number().required(),
+      high: joi.number().required(),
+      low: joi.number().required(),
+    })
   )
 
   const fiveMinCandlestickChart$ = candlestickChart$.pipe(
-    filterAck(x => x.message.coinType == "BTC/USDT"),
-    filterAck(x => x.message.timeFrame == 300000)
+    filterAndAck(x => x.message.coinType == "BTC/USDT"),
+    filterAndAck(x => x.message.timeFrame == 300000)
   )
 
   const fifteenMinCandlestickChart$ = fiveMinCandlestickChart$.pipe(

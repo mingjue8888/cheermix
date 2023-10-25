@@ -1,5 +1,5 @@
 import amqp from "amqplib"
-import { Observable, Subscriber, filter, map } from "rxjs"
+import { Observable, Subscriber, map } from "rxjs"
 import _ from "lodash"
 import joi from "joi"
 interface ProcessEnvironment {
@@ -92,12 +92,13 @@ export async function publish(
 
 export interface ConsumeMessage<T> {
   exchangeName: string
+  queueName: string
   routingKey: string
   message: T
   ack: () => void
 }
 
-export function consume<T>(queue: string, schema: joi.ObjectSchema<T>) {
+export function consume(queue: string) {
   const message$ = new Observable(function (
     observer: Subscriber<{ msg: amqp.ConsumeMessage; channel: amqp.Channel }>
   ) {
@@ -111,33 +112,38 @@ export function consume<T>(queue: string, schema: joi.ObjectSchema<T>) {
       param =>
         ({
           exchangeName: param.msg.fields.exchange,
+          queueName: queue,
           routingKey: param.msg.fields.routingKey,
-          message: JSON.parse(param.msg.content.toString("utf-8")) as T,
+          message: JSON.parse(param.msg.content.toString("utf-8")) as any,
           ack: () => param.channel.ack(param.msg),
-        } as ConsumeMessage<T>)
-    ),
-    filter(x => {
-      try {
-        x.message = joi.attempt(x.message, schema, {
-          allowUnknown: true,
-        })
-        return true
-      } catch (error) {
-        const errorMessage = {
-          errorType: "JoiValidationError",
-          errorMessage: error.message,
-          exchangeName: x.exchangeName,
-          routingKey: x.routingKey,
-          message: x.message,
-        }
-        publish("errors", "JoiValidationError", errorMessage).then(() => x.ack())
-        return false
-      }
-    })
+        } as ConsumeMessage<any>)
+    )
   )
 }
 
-export function filterAck<T>(filterFunction: (message: ConsumeMessage<T>) => boolean) {
+export function filterOnSchema<T>(joiSchema: Record<string, joi.AnySchema>) {
+  return function (observable: Observable<ConsumeMessage<T>>) {
+    return new Observable<ConsumeMessage<T>>(function (subscriber) {
+      observable.subscribe(function (message) {
+        try {
+          message.message = joi.attempt(message.message, joi.object(joiSchema), {
+            allowUnknown: true,
+          })
+          subscriber.next(message)
+        } catch (error) {
+          const errorMessage = {
+            errorType: "JoiValidationError",
+            errorMessage: error.message,
+            ...message,
+          }
+          publish("errors", "JoiValidationError", errorMessage).then(() => message.ack())
+        }
+      })
+    })
+  }
+}
+
+export function filterAndAck<T>(filterFunction: (message: ConsumeMessage<T>) => boolean) {
   return function (observable: Observable<ConsumeMessage<T>>) {
     return new Observable<ConsumeMessage<T>>(function (subscriber) {
       observable.subscribe(function (message) {
